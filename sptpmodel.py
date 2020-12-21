@@ -37,12 +37,12 @@ sum{i in I} x2b[i,j]*x[i,j] >= b[j] {j in J};
 x[i,j] in Z (or in R)
 
 """
-class TSPmodel:
+class SPTPmodel:
 
     def __init__(self, sptpData, isInteger=True, debug=False, options=None, model_options=None):
         """
         :param sptpData: structure containing all data
-             .Name (The Name of the dataset)
+             .name (The Name of the dataset)
              .I (n-list with IDs of assets), .
              .J (m-list with IDs of requirements),
              .getC(i,j) = c_ij: i in I, j in J (costs),
@@ -56,10 +56,10 @@ class TSPmodel:
         :param options: reserved, e.g. to modify NL-generation
         :param model_options: reserved, to modify constraints
         """
-        self.name = sptpData.Name
+        self.name = sptpData.name
         self.M = len(sptpData.I)
         self.N = len(sptpData.J)
-        self.fullName = sptpData.Name + '_sptp' + 'I' + str(self.M) + 'J' + str(self.N)
+        self.name = sptpData.name + '_sptp' + '_M_' + str(self.M) + '_N_' + str(self.N)
 
         self.model = ConcreteModel(self.name)
 
@@ -86,13 +86,13 @@ class TSPmodel:
 
         # Declaration of variables
         # Detect upper bound on x_ij
-        upX = min( (sptpData.getA(i)/sum(sptpData.getX2A(i,j) for j in sptpData.J)) for i in sptpData.I )
+        upX = 10 # min( (sptpData.getA(i)/sum(sptpData.getX2A(i,j) for j in sptpData.J)) for i in sptpData.I )
         def initX(model, i, j):
-            return sptpData.getInitX(i,j)
+            return int(sptpData.getInitX(i,j))
         if isInteger:
-            self.model.x = Var(self.model.I, self.model.I, within=NonNegativeIntegers, bounds=(0, upX), initialize=initX)
+            self.model.x = Var(self.model.I, self.model.J, within=NonNegativeIntegers, bounds=(0, upX), initialize=initX)
         else:
-            self.model.x = Var(self.model.I, self.model.I, within=NonNegativeReals, bounds=(0, upX),
+            self.model.x = Var(self.model.I, self.model.J, within=NonNegativeReals, bounds=(0, upX),
                                initialize=initX)
 
         # Constraints
@@ -111,6 +111,9 @@ class TSPmodel:
         def obj_rule(model):
             return (sum(model.C[i,j]*model.x[i,j] for i in model.I for j in model.J))
         self.model.obj = Objective(rule=obj_rule, sense=minimize)
+
+        if debug:
+            self.model.pprint()
 
         # Fixed constraints
         # def cons_fixed_xij(model, ij, b):
