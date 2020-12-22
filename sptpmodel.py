@@ -50,6 +50,7 @@ class SPTPmodel:
              .getB(j)   = b_j: j in J (min amounts to satisfy requirements}
              .getX2A(i,j) = x2a_ij: i in I, j in J (coefficients to scale assets, =1 by default)
              .getX2B(i,j) = x2b_ij: i in I, j in J (coefficients to scale requirements, =1 by default)
+             .isXinteger(i,j) returns True iff x_ij MUST BE Integer
              .getInitX(i,j) returns initial solution x_ij; =0 by default
         :param isInteger: if True then all x_ij are NonNegativeIntegers, else - NonNegativeReals
         :param debug: reserved
@@ -89,11 +90,18 @@ class SPTPmodel:
         upX = 10 # min( (sptpData.getA(i)/sum(sptpData.getX2A(i,j) for j in sptpData.J)) for i in sptpData.I )
         def initX(model, i, j):
             return int(sptpData.getInitX(i,j))
-        if isInteger:
-            self.model.x = Var(self.model.I, self.model.J, within=NonNegativeIntegers, bounds=(0, upX), initialize=initX)
-        else:
-            self.model.x = Var(self.model.I, self.model.J, within=NonNegativeReals, bounds=(0, upX),
-                               initialize=initX)
+        def XijDomain_rule(model, i, j):
+            if sptpData.isXinteger(i,j):
+                return NonNegativeIntegers
+            else:
+                return NonNegativeReals
+        self.model.x = Var(self.model.I, self.model.J, domain=XijDomain_rule, bounds=(0, upX), initialize=initX)
+
+        # if isInteger:
+        #     self.model.x = Var(self.model.I, self.model.J, domain=XijDomain_rule, bounds=(0, upX), initialize=initX)
+        # else:
+        #     self.model.x = Var(self.model.I, self.model.J, within=NonNegativeReals, bounds=(0, upX),
+        #                        initialize=initX)
 
         # Constraints
         # sum{j in J} x2a[i,j]*x[i,j] <= a[i] {i in I};

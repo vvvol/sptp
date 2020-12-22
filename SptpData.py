@@ -37,3 +37,9 @@ class SptpData:
 
     def mayBeFeasible(self):
         return ( sum(a for a in self.A) >= sum(b for b in self.B))
+
+    def isXinteger(self, i, j):
+        if i >= self.M/2 and j <= self.N/2:
+            return True
+        else:
+            return False
