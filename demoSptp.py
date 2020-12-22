@@ -14,7 +14,7 @@ from ssop_session import *
 
 import ssop_config
 from sptpmodel import *
-from SptpData import *
+from SptpDataDemo import *
 
 def makeParser():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -89,7 +89,11 @@ if __name__ == "__main__":
 
     # Create opt/ model and write NL-file
     # Get SptpData somehow
-    theData = SptpData(args.problem, 5, 8)
+    theData = SptpData(args.problem, \
+                       'data/collateral_optimization_data_v2/a_vector_v2.csv', \
+                       'data/collateral_optimization_data_v2/b_vector_v2.csv', \
+                       'data/collateral_optimization_data_v2/c_matrix_v2.csv', \
+                       'data/collateral_optimization_data_v2/p_matrix_v2.csv')
     # Check necessary condition for feasibility
     if not theData.mayBeFeasible():
         raise ValueError('DataSet IS NOT FEASIBLE: sum{i in I} a_i < sum{j in J} b_j')

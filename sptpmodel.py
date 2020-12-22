@@ -95,7 +95,9 @@ class SPTPmodel:
                 return NonNegativeIntegers
             else:
                 return NonNegativeReals
-        self.model.x = Var(self.model.I, self.model.J, domain=XijDomain_rule, bounds=(0, upX), initialize=initX)
+        def XijBounds_rule(model, i, j):
+            return (0, model.A[i])
+        self.model.x = Var(self.model.I, self.model.J, domain=XijDomain_rule, bounds=XijBounds_rule, initialize=initX)
 
         # if isInteger:
         #     self.model.x = Var(self.model.I, self.model.J, domain=XijDomain_rule, bounds=(0, upX), initialize=initX)
