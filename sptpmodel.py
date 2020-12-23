@@ -52,7 +52,7 @@ class SPTPmodel:
              .getX2B(i,j) = x2b_ij: i in I, j in J (coefficients to scale requirements, =1 by default)
              .isXinteger(i,j) returns True iff x_ij MUST BE Integer
              .getInitX(i,j) returns initial solution x_ij; =0 by default
-        :param isInteger: if True then all x_ij are NonNegativeIntegers, else - NonNegativeReals
+        :param isInteger: if True then some x_ij will be NonNegativeIntegers (!!!???), else - NonNegativeReals
         :param debug: reserved
         :param options: reserved, e.g. to modify NL-generation
         :param model_options: reserved, to modify constraints
@@ -60,7 +60,7 @@ class SPTPmodel:
         self.name = sptpData.name
         self.M = len(sptpData.I)
         self.N = len(sptpData.J)
-        self.name = sptpData.name + '_sptp' + '_M_' + str(self.M) + '_N_' + str(self.N)
+        self.name = sptpData.name + '_M_' + str(self.M) + '_N_' + str(self.N)
 
         self.model = ConcreteModel(self.name)
 
@@ -87,7 +87,7 @@ class SPTPmodel:
 
         # Declaration of variables
         # Detect upper bound on x_ij
-        upX = 10 # min( (sptpData.getA(i)/sum(sptpData.getX2A(i,j) for j in sptpData.J)) for i in sptpData.I )
+        # Is x_ij integer or not is defined by SptpData.isXinteger() function
         def initX(model, i, j):
             return int(sptpData.getInitX(i,j))
         def XijDomain_rule(model, i, j):
