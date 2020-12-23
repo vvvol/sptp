@@ -1,0 +1,4 @@
+display/freq = 100
+display/verblevel = 5
+limits/gap = 1e-06
+limits/memory = 28000
