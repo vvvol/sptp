@@ -2,8 +2,8 @@ from math import *
 import pandas as pd
 
 
-class SptpData:
-    def __init__(self, name, path2a_csv, path2b_csv, path2C_csv, path2D_csv, path2P_csv, path2S_csv, debug=False):
+class SptpData_4:
+    def __init__(self, name, path2a_csv="", path2b_csv="", path2C_csv="", path2D_csv="", path2P_csv="", path2S_csv="", debug=False):
         """
          :param name: name of the dataset;
          :path2a_csv: path to CSV with Available Assets (vector, i)
@@ -89,7 +89,7 @@ class SptpData:
     def checkFeasible(self, debug=False):
         checkDict = {}
         for j in self.J:
-            if self.getB(j) > sum(self.getX2B(i,j)*self.getA(i) for i in self.I):
+            if self.getB(j) > sum(self.getD(i,j) for i in self.I):
                 checkDict[j] = False
                 if debug:
                     print('checkFeasible: ', j, ' FALSE')
