@@ -24,8 +24,8 @@ def makeParser():
     # parser.add_argument('-int', '--integer', action='store_true', help='variables are integer')
     # parser.add_argument('-inthld', '--integerthreshold', type=int, default=0,
     #                     help='Is X_ij Integer by its upper bound threshold, the more the value the more integers')
-    # parser.add_argument('-wd', '--workdir', default=ssop_config.SSOP_DEFAULT_WORKING_DIR, help='working directory')
-    # parser.add_argument('-s', '--solver', default='scip', choices=['ipopt', 'scip'], help='solver to use')
+    parser.add_argument('-wd', '--workdir', default=ssop_config.SSOP_DEFAULT_WORKING_DIR, help='working directory')
+    parser.add_argument('-s', '--solver', default='scip', choices=['ipopt', 'scip'], help='solver to use')
     parser.add_argument('-cf', '--cleanfiles', action='store_true', help='clean working directory')
     parser.add_argument('-cj', '--cleanjobs', action='store_true', help='clean jobs from server')
     parser.add_argument('-x', '--extra', action='store_true', help='extra tests')
