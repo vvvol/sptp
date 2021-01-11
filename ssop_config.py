@@ -39,7 +39,7 @@ SSOP_TOKEN_FILE = "/mnt/hgst2/ext4/git_work/sptp/.token"
 UPDATE_TOKEN_PERIOD_IN_SEC = 7*24*3600 - 5*3600
 
 # Working dirs
-SSOP_DEFAULT_WORKING_DIR = "/mnt/hgst2/ext4/git_work/sptp/.temp"
+SSOP_DEFAULT_WORKING_DIR = "/mnt/hgst2/ext4/git_work/sptp/temp"
 
 # Run miscellaneous
 SSOP_RUN_SH_PREFIX = "run-" # run-ipopt.sh, run-scip.sh, run-fscip.sh ...
