@@ -141,7 +141,7 @@ if __name__ == "__main__":
         nlName = makeNlFile(theModel, workdir)
         nlNames = [nlName]
         stop_makeNl = timer()
-        print('makeNl(%s, intThld = %d) took: %g sec' % (theModel.name, args.integerthreshold, stop_makeNl - start_makeNl))
+        print('makeNl(%s, version 4) took: %g sec' % (theModel.name, stop_makeNl - start_makeNl))
 
         # # Write options file
         # if solver == "scip":
