@@ -141,14 +141,14 @@ class SPTPmodel_5:
             return( sum(model.P[i,j]*model.x[i,j] for i in model.I) >= model.B[j])
         self.model.cons_Requirements = Constraint(self.model.J, rule = cons_Requirements_rule)
 
-        # p[i,j]*x[i,j] <= d[i,j] {i in I, j in J}
+        # sum{i in I} t[i,k]*x[i,j]*p[i,j] <= d[k,j] {k in K, j in J}
         # !!! Skip for if p[i,j] = ZERO !!!
-        def cons_MaxCostReq_rule(model, i, j):
-            if model.P[i,j] > 0:
-                return(model.P[i,j]*model.x[i,j] <= model.D[i,j] )
-            else:
+        def cons_MaxCostReq_rule(model, k, j):
+            # tmp = sum(model.T[i,k]*model.P[i,j] for i in model.I)
+            if sum(model.T[i,k]*model.P[i,j] for i in model.I) <= 1.e-7:
                 return Constraint.Skip
-        self.model.cons_MaxCostReq = Constraint(self.model.I, self.model.J, rule = cons_MaxCostReq_rule)
+            return (sum(model.T[i,k]*model.x[i,j]*model.P[i,j] for i in model.I) <= model.D[k, j])
+        self.model.cons_MaxCostReq = Constraint(self.model.K, self.model.J, rule = cons_MaxCostReq_rule)
 
         ## Objective
         # minimize  sum{i in I, j in J} c[i,j] * x[i,j]

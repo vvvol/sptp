@@ -107,12 +107,13 @@ if __name__ == "__main__":
     start_read_check = timer()
 
     theData = SptpData_5(args.problem, \
-                       path2a_csv='/mnt/hgst2/ext4/git_work/financial-services/data/processed/version 4/a_vector.csv', \
-                       path2b_csv='/mnt/hgst2/ext4/git_work/financial-services/data/processed/version 4/b_vector.csv', \
-                       path2C_csv='/mnt/hgst2/ext4/git_work/financial-services/data/processed/version 4/c_matrix.csv', \
-                       path2D_csv='/mnt/hgst2/ext4/git_work/financial-services/data/processed/version 4/d_matrix.csv', \
-                       path2P_csv='/mnt/hgst2/ext4/git_work/financial-services/data/processed/version 4/p_matrix.csv', \
-                       path2S_csv='/mnt/hgst2/ext4/git_work/financial-services/data/processed/version 4/s_matrix.csv')
+                       path2a_csv='../financial-services/data/processed/version 5/a_vector.csv', \
+                       path2b_csv='../financial-services/data/processed/version 5/b_vector.csv', \
+                       path2C_csv='../financial-services/data/processed/version 5/c_matrix.csv', \
+                       path2D_csv='../financial-services/data/processed/version 5/d_matrix.csv', \
+                       path2P_csv='../financial-services/data/processed/version 5/p_matrix.csv', \
+                       path2S_csv='../financial-services/data/processed/version 5/s_matrix.csv', \
+                       path2T_csv='../financial-services/data/processed/version 5/t_matrix.csv')
     # Check necessary condition for feasibility
     if args.action == 'nl':
         checkDict = theData.checkFeasible(debug=True)
